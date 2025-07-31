@@ -1,0 +1,346 @@
+body {
+    font-family: sans-serif;
+    margin: 0;
+    /* Добавляем padding-bottom, чтобы кнопка не перекрывала контент */
+    padding: 20px 20px 100px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+    overflow-x: hidden;
+    user-select: none; 
+}
+
+#turn-indicator {
+    padding: 10px 30px;
+    margin-bottom: 25px;
+    color: white;
+    font-size: 1.5em;
+    font-weight: bold;
+    text-align: center;
+    transition: background-color 0.5s ease-in-out;
+    border-radius: 38px;
+    border: 5px solid #5C4033;
+}
+
+.your-turn { background-color: #4CAF50; }
+.opponent-turn { background-color: #D32F2F; }
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    max-width: 80%;
+    padding: 15px;
+    background-color: #6B4226;
+    border: 12px solid #5C4033;
+    border-radius: 38px;
+    transition: width 0.4s ease-in-out, height 0.4s ease-in-out;
+}
+
+.container.container--updating {
+    overflow: hidden;
+}
+.container.container--updating .stick {
+    opacity: 0;
+    transform: scale(0.9);
+}
+
+.stick {
+    width: 30px;
+    height: 180px; 
+    margin: 2.5px;
+    box-sizing: border-box;
+    cursor: pointer;
+    border: 8px solid #5C4033;
+    border-radius: 25px;
+    opacity: 1;
+    transform: scale(1);
+    transition: transform 0.1s ease-out, box-shadow 0.1s ease-out, opacity 0.2s ease-in-out, background-color 0.2s, border-color 0.2s;
+}
+
+.stick:hover {
+    transform: translateY(-8px) scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+}
+
+/* Ваши стили для выделенных палочек */
+.stick.selected {
+    background-color: #A0522D !important;
+    border-color: #ffffff !important;
+    transform: none;
+    box-shadow: none;
+}
+.stick.selected:hover {
+    transform: translateY(-8px) scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+}
+
+.empty-space {
+    width: 30px;
+    height: 180px;
+    margin: 2.5px;
+}
+
+/* Ваши стили для рамки выделения */
+#selection-box {
+    position: absolute;
+    background-color: rgba(76, 175, 80, 0.3);
+    border: 1px solid rgba(76, 175, 80, 0.8);
+    z-index: 9999;
+    border-radius: 25px;
+}
+
+/* НОВЫЕ СТИЛИ: Кнопка "Забрать" */
+#take-button {
+    padding: 15px 40px;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #5C4033;
+    background-color: #ffffff;
+    border: 3px solid #5C4033;
+    border-radius: 38px;
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(20px);
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out, visibility 0.3s;
+}
+/* Класс для отображения кнопки */
+#take-button.visible {
+    opacity: 1;
+    transform: translateY(0);
+    visibility: visible;
+}
+
+#main-menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px; /* Расстояние между кнопками */
+    padding: 40px;
+}
+
+.menu-button {
+    padding: 15px 40px;
+    width: 250px;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #5C4033;
+    background-color: #ffffff;
+    border: 3px solid #5C4033;
+    border-radius: 38px;
+    cursor: pointer;
+    transition: transform 0.2s ease-out, background-color 0.2s ease-out;
+    text-align: center;
+}
+
+.menu-button:hover {
+    transform: scale(1.05);
+    background-color: #f0f0f0;
+}
+#app-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+#setup-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    padding: 20px;
+    background-color: #ffffff;
+    border: 3px solid #5C4033;
+    border-radius: 38px;
+    width: 80%;
+    max-width: 500px;
+}
+
+#setup-screen h2 {
+    margin-top: 0;
+    color: #5C4033;
+}
+
+.setup-control {
+    font-size: 1.1em;
+}
+
+.setup-control input {
+    width: 60px;
+    font-size: 1em;
+    text-align: center;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    margin: 0 5px;
+}
+
+#setup-screen .menu-button {
+    margin-top: 20px;
+}
+
+/* ... (весь ваш существующий код CSS до этого момента) ... */
+
+
+/* НОВЫЙ СТИЛЬ: Заголовок в главном меню */
+#main-menu-title {
+    color: #333;
+    font-size: 2em;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+    border-bottom: 3px solid #5C4033;
+    padding-bottom: 10px;
+}
+
+.turn-selector {
+    margin-top: 15px;
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #333;
+}
+
+.turn-selector label {
+    margin: 0 15px 0 5px;
+    cursor: pointer;
+}
+
+/* Фон-затемнение */
+#modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1000; /* Должен быть поверх всего */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Сам контейнер модального окна */
+#modal-content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 25px;
+    text-align: center;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+#modal-content h3 {
+    margin-top: 0;
+    color: #333;
+}
+
+#modal-content .modal-buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+/* Прогресс-бар */
+#progress-bar-container {
+    width: 100%;
+    background-color: #e0e0e0;
+    border-radius: 13px;
+    padding: 3px;
+    margin-top: 20px;
+}
+
+#progress-bar {
+    width: 0%; /* Начинаем с 0 */
+    height: 20px;
+    background-color: #4CAF50;
+    border-radius: 10px;
+    text-align: center;
+    line-height: 20px;
+    color: white;
+    transition: width 0.1s linear; /* Плавный рост */
+}
+
+#validation-warning {
+    color: #D32F2F; /* Насыщенный красный, как у индикатора хода соперника */
+    font-weight: bold;
+    min-height: 1.2em; /* Резервируем место, чтобы макет не "прыгал" */
+    margin-top: 10px;
+}
+
+/* НОВЫЙ СТИЛЬ: Оформление неактивной кнопки */
+.menu-button:disabled {
+    background-color: #e0e0e0;
+    color: #9e9e9e;
+    border-color: #bdbdbd;
+    cursor: not-allowed;
+    transform: none; /* Отключаем эффект увеличения при наведении */
+}
+
+#game-controls {
+    position: fixed; /* Фиксируем весь блок внизу экрана */
+    bottom: 30px;
+    display: flex;
+    gap: 20px; /* Расстояние между кнопками */
+}
+
+/* НОВЫЙ СТИЛЬ: Кнопка "Выход в меню" */
+#exit-game-btn {
+    padding: 15px 30px;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #616161; /* Серый цвет для второстепенного действия */
+    background-color: #f5f5f5;
+    border: 3px solid #bdbdbd;
+    border-radius: 38px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#exit-game-btn:hover {
+    background-color: #e0e0e0;
+}
+
+#end-game-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* Чуть темнее для драматичности */
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#end-game-modal {
+    background-color: #fff;
+    padding: 30px 40px;
+    border-radius: 25px;
+    text-align: center;
+    width: 90%;
+    max-width: 450px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+#end-game-modal h2 {
+    margin-top: 0;
+    font-size: 2.5em;
+}
+
+#end-game-modal .victory {
+    color: #4CAF50; /* Зеленый */
+}
+#end-game-modal .defeat {
+    color: #D32F2F; /* Красный */
+}
+
+#end-game-modal .menu-button {
+    margin-top: 20px;
+}
