@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Обучение</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: #fff;
+            padding: 25px 40px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        h1, h2, h3 {
+            color: #444;
+            border-bottom: 2px solid #eaeaea;
+            padding-bottom: 10px;
+        }
+        h1 {
+            text-align: center;
+        }
+        code, .key {
+            background-color: #e8e8e8;
+            padding: 2px 6px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .highlight {
+            background-color: #fffbdd;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #5C4033;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: background-color 0.2s;
+        }
+        .back-link:hover {
+            background-color: #4a3328;
+        }
+        ol {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">← Назад в меню</a>
+        <h1>Обучение</h1>
+        <p>Описание основных механик игры и взаимодействия с интерфейсом:</p>
+
+        <section>
+            <h2>Цель игры</h2>
+            <p>Основная цель в любой из игр с палочками — используя разрешенные ходы, оставить соперника в такой позиции, из которой он не сможет сделать ход в соответствии с правилами. Тот, кто делает последний возможный ход, — побеждает.</p>
+        </section>
+
+        <section>
+            <h2>Игровой процесс: пошаговая инструкция</h2>
+            <ol>
+                <li>
+                    <strong>Выбор палочек для хода.</strong>
+                    <p>Это основное действие в игре. Выбранные палочки <span class="highlight">меняют свой цвет и получают белую обводку</span>, что позволяет легко отличить их от остальных. Существует несколько способов выбора:</p>
+                    <ul>
+                        <li><strong>Одиночный клик:</strong> Просто кликните на любую палочку, чтобы выбрать ее. Повторный клик на выделенную палочку снимает с нее выделение.</li>
+                        <li><strong>Продвинутое выделение с <span class="key">Ctrl</span>:</strong> Если вы зажмете клавишу <span class="key">Ctrl</span>, вы можете начать выделение рамкой из любой точки экрана, даже с палочек, не боясь снять с них выделение случайным кликом.</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Подтверждение хода.</strong>
+                    <p>Когда вы выбрали все необходимые палочки, нажмите кнопку <strong>«Забрать»</strong>. Она доступна только во время вашего хода. Если выбранный вами ход соответствует правилам текущего режима, палочки исчезнут с поля.</p>
+                </li>
+                <li>
+                    <strong>Ход соперника.</strong>
+                    <p>После вашего хода индикатор вверху экрана станет красным, и появится надпись «Ход соперника». Через две секунды компьютер сделает свой ответный ход.</p>
+                </li>
+                <li>
+                    <strong>Завершение игры.</strong>
+                    <p>Игра продолжается до тех пор, пока один из игроков не окажется в позиции, из которой невозможно сделать ход. В этот момент появится окно с сообщением о победе или поражении.</p>
+                </li>
+                <li>
+                    <strong>Возврат в главное меню.</strong>
+                    <p>В любой момент во время игры вы можете нажать кнопку <strong>«Выход в меню»</strong>, чтобы прервать текущую партию и вернуться на главный экран для выбора другого режима.</p>
+                </li>
+            </ol>
+        </section>
+        
+        <a href="index.html" class="back-link">← Назад в меню</a>
+    </div>
+</body>
+</html>

@@ -223,54 +223,6 @@ function mode_3_4_check (positionBefore, positionAfter, min, max)
             else return false; 
         }
     }
-    return true;
-}
-function move_5_check (positionBefore, positionAfter)
-{
-    
-    let flag = false;
-    let offset = 0;
-    const cycleCount = positionBefore.length > positionAfter.length ? positionBefore.length : positionAfter.length;
-    for(let i = 0; i < cycleCount; i++)
-    {
-         // если ничего не поменялось с учетом оффсета, идем дальше
-        if (positionBefore[i]===positionAfter[i+offset])    continue; 
-        else
-        {
-            // если текущие фрагменты не совпадают, то возможны 3 варианта:
-            // фрагмент разбили на 2 
-            // фрагмент уменьшился 
-            // фрагмент исчез
-
-            //если flag уже изменяли, значит это не один ход
-            if(flag)    return false;
-            flag = true;
-
-            // следующая позиция "до" хода равна текущей "после" - фрагмент исчез
-            if(positionBefore[i+1]===positionAfter[i])   
-            {
-                // если убрали кусок больше макс или меньше мин то это ошибка
-                if(positionBefore[i]>max || positionBefore[i]<min)  return false; 
-                // иначе смещение -1 для positionAfter  
-                offset = -1;
-            }
-            // следующая до равна следующей после - фрагмент уменьшился
-            else if (positionBefore[i+1]===positionAfter[i+1])
-            {
-                const movedSicks = positionBefore[i]-positionAfter[i];
-                if(movedSicks>max || movedSicks<min)    return false;
-                // и все, offset менять не надо
-            }
-            else if(positionBefore[i+1]===positionAfter[i+2])
-            {
-                const movedSicks = positionBefore[i] - positionAfter[i] - positionAfter[i+1];
-                if(movedSicks>max || movedSicks<min)    return false;
-                // добавился новый фрагмент
-                offset = 1;
-            }
-            // значит что то кто то намудрил
-            else return false; 
-        }
-    }
-    return true;
+    if(flag)  return true;
+    return false;
 }

@@ -3,6 +3,7 @@
  * @param {number} maxSticks Максимальное общее количество палочек в игре.
  * @returns {Map<string, number>} Map, где ключ - каноническое состояние (н-р, "1,4,5"), а значение - его g-число.
  */
+grundyValues = null;
 function gGen_5(maxSticks) {
     // Map для хранения g-чисел (мемоизация)
     // Ключ: '2,4,6', Значение: g-число
@@ -193,45 +194,37 @@ function generatePartitions(n) {
 }
 
 
-// --- КАК ИСПОЛЬЗОВАТЬ ---
-
-console.log("Начинаем предварительный расчет g-чисел... Это может занять некоторое время.");
-
-// 1. Выполняем расчет ОДИН РАЗ в начале программы.
-// ВНИМАНИЕ: для 50 палочек это может занять от 10-20 секунд до нескольких минут, 
-// в зависимости от мощности вашего компьютера.
-const MAX_GAME_STICKS = 30; // Для примера поставим 20. Для полной игры измените на 50.
-//const grundyValues = calculateAllGrundyNumbers(MAX_GAME_STICKS);
-
-console.log(`Расчет завершен. Найдено g-чисел для ${grundyValues.size} состояний.`);
-
-
-// 2. Теперь используем готовые значения в игровой логике.
-const currentPosition = [2, 4, 6]; // Ваша позиция {2, 4, 6}
-
-// Приводим к каноническому виду
-currentPosition.sort((a,b) => a - b);
-const currentKey = currentPosition.join(',');
-
-const nimSum = grundyValues.get(currentKey);
-
-if (nimSum === undefined) {
-    console.error("Ошибка: g-число для текущего состояния не найдено. Увеличьте MAX_GAME_STICKS.");
-} else if (nimSum === 0) {
-    console.log(`G-число для позиции [${currentKey}] равно 0. Это проигрышная позиция. Надейтесь на ошибку противника.`);
-} else {
-    console.log(`G-число для позиции [${currentKey}] равно ${nimSum}. Это выигрышная позиция!`);
-    // Здесь должна быть логика поиска выигрышного хода,
-    // которая перебирает все ходы, генерирует newKey и ищет тот, 
-    // для которого grundyValues.get(newKey) === 0.
-}
 
 function move_5(currentPiles) {
   // Важно: работаем с отсортированной копией, чтобы не изменять исходный массив
   // и соответствовать формату ключей в Map.
+  if(grundyValues === null) 
+  {
+    let sum = 0;
+    for (const element of currentPiles)
+    {
+        sum+=element;
+        sum++; //учитываем пропуск
+    }
+    if(sum>50)  sum = 50;
+    if(sum>31)  alert("Не были рассчитаны или загружены данные для игры. Подтвердите начало расчета или обновите страницу.");
+    grundyValues = gGen_5(sum);
+  }
   const piles = [...currentPiles].sort((a, b) => a - b);
               const numPiles = piles.length;
-
+            if(grundyValues.get(piles.join(',')) === 0)
+            {
+                if(piles[piles.length - 1]===1) 
+                    {
+                        
+                        return piles.slice(0, -1);
+                    }
+                else 
+                {
+                    piles[piles.length - 1]-=1;
+                    return piles
+                }
+            }
             // Ход 1: Взять 1 любую палочку
             for (let i = 0; i < piles.length; i++) {
                 // Оптимизация: пропускаем дубликаты куч (т.к. piles отсортирован)
@@ -341,4 +334,72 @@ for (let i = 0; i < piles.length; i++) {
             }
   // Если мы дошли до этого места, значит, ни один из ходов не привел к g = 0
   return null;
+}
+
+
+function mode_5_check(positionBefore, positionAfter) {
+
+    // Шаг 1: Рассчитываем, сколько всего палочек было взято.
+    const sticksBefore = positionBefore.reduce((sum, val) => sum + val, 0);
+    const sticksAfter = positionAfter.reduce((sum, val) => sum + val, 0);
+    const takenCount = sticksBefore - sticksAfter;
+
+    // Шаг 2: Проверяем количество взятых палочек.
+    // Если взято не 1, 2 или 3, ход точно неверный.
+    if (takenCount !== 1 && takenCount !== 2 && takenCount !== 3) {
+        console.error(`Неверный ход: взято ${takenCount} палочек. В этом режиме разрешено 1, 2 или 3.`);
+        return false;
+    }
+
+    // Шаг 3: Проверяем простые случаи.
+    // Если взяли 1 или 2 палочки, правила ("любые") не накладывают
+    // никаких ограничений на их расположение. Поэтому ход всегда верный.
+    if (takenCount === 1 || takenCount === 2) {
+        return true;
+    }
+
+    // Шаг 4: Самый сложный случай. Если взято 3 палочки,
+    // мы должны убедиться, что они были взяты ПОДРЯД из ОДНОГО фрагмента.
+    if (takenCount === 3) {
+        //ситуации: исчез, уменьшился, разбили на два
+        console.log("test:")
+        console.log(positionBefore);
+        console.log(positionAfter);
+        let flag = 0;
+        let offset = 0;
+        for(let i = 0; i<positionBefore.length; i++)
+        {
+            if(positionBefore[i] === positionAfter[i+offset])    continue;
+            else{
+                if(flag)    return false;
+                if((positionBefore[i] === 3)&&(i===positionBefore.length-1?true:(positionAfter[i] === positionBefore[i+1]))) 
+                {
+                    offset = -1;
+                    flag = 1;
+                    continue;
+                }
+                if((positionBefore[i] === positionAfter[i]+3)&&(i===positionBefore.length-1?true:(positionAfter[i+1] === positionBefore[i+1]))) 
+                {
+                    flag = 1;
+                    continue;
+                }
+                if(
+                (positionBefore[i] === positionBefore[i]+positionAfter[i]+3)&&
+                (positionBefore[i+1] === positionAfter[i+2]))
+                {
+                    offset = 1;
+                    flag = 1;
+                    continue;
+                }
+                return false;
+                
+
+            }
+        }
+
+        return true;
+    }
+
+    // Этот код не должен выполниться, но это хорошая практика на случай ошибок.
+    return false;
 }

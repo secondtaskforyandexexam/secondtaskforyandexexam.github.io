@@ -208,5 +208,6 @@ function renderGamePage(appContainer, gameSettings, onExitCallback) {
         document.removeEventListener('mousemove', handleMouseMove);
         document.removeEventListener('mouseup', handleMouseUp);
         gNumbers = [];
+        grundyValues = null;
     }
 }
