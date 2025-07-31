@@ -384,7 +384,7 @@ function mode_5_check(positionBefore, positionAfter) {
                     continue;
                 }
                 if(
-                (positionBefore[i] === positionBefore[i]+positionAfter[i]+3)&&
+                (positionBefore[i] === positionAfter[i]+positionAfter[i+1]+3)&&
                 (positionBefore[i+1] === positionAfter[i+2]))
                 {
                     offset = 1;
