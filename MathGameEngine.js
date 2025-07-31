@@ -1,5 +1,6 @@
 //let globalMin, globalMax, startAmount;
 //[globalMin, globalMax, startAmount] = [1, 3, 50]
+gNumbers = []
 function gGen(min, max, endValue) 
 /*считает g(i) c нуля по i = endVValue по алгоритму:
 хотим получить g(n)

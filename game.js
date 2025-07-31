@@ -207,5 +207,6 @@ function renderGamePage(appContainer, gameSettings, onExitCallback) {
         document.removeEventListener('mousedown', handleMouseDown);
         document.removeEventListener('mousemove', handleMouseMove);
         document.removeEventListener('mouseup', handleMouseUp);
+        gNumbers = [];
     }
 }
